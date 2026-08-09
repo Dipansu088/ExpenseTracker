@@ -21,6 +21,16 @@ def add_expense():
         "description":description
     })
     print("Expense added successfully!")
+    
+def view_expenses():
+    if not expenses:
+        print("No expenses available.")
+    else:
+        for number, expense_item in enumerate(expenses, start=1):
+            print(f'''{number}. {expense_item['category']}
+    {expense_item['description']}
+    {expense_item['amount']}''')
+    
    
 while True:    
     menu()
@@ -32,15 +42,21 @@ while True:
             
         elif choice==2:
             print("View Expense Selected")
+            view_expenses()
+            
         elif choice==3:
             print("Delete Expense Selected")
+            
         elif choice==4:
             print("View Total Selected")
+            
         elif choice==5:
             print("View Summary Selected")
+            
         elif choice==6:
             print("Goodbye!!!")
             break
+        
         else:
             print("Oops!!! Enter choice between 1 and 6!")
     except ValueError:
