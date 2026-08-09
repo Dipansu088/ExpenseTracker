@@ -1,6 +1,6 @@
 expenses=[]
 def menu():
-    print("========== EXPENSE TRACKER ==========")
+    print("==============| EXPENSE TRACKER |==============")
     print('''         
          1. Add Expense
          2. View Expenses
@@ -9,6 +9,18 @@ def menu():
          5. View Summary
          6. Exit
          ''')
+    
+def add_expense():
+    print("=========| ADD EXPENSE |=========")
+    amount=float(input("Enter amount (in Rs): "))
+    category=input('''Enter category (Example: Food, Transport, Shopping, Entertainment, Bills): ''')
+    description=input('''Enter description (Examples: Lunch, Bus, ticket, New shirt, Movie, Electricity bill): ''')
+    expenses.append({
+        "amount":amount,
+        "category":category,
+        "description":description
+    })
+    print("Expense added successfully!")
    
 while True:    
     menu()
@@ -16,6 +28,8 @@ while True:
         choice=int(input("Enter your choice: "))
         if choice==1:
             print("Add Expense Selected")
+            add_expense()
+            
         elif choice==2:
             print("View Expense Selected")
         elif choice==3:
