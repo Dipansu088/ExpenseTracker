@@ -24,12 +24,16 @@ def add_expense():
     
 def view_expenses():
     if not expenses:
-        print("No expenses available.")
+        print("No expenses available!!!")
     else:
+        print("=========| YOUR EXPENSES |=========")
         for number, expense_item in enumerate(expenses, start=1):
             print(f'''{number}. {expense_item['category']}
     {expense_item['description']}
     {expense_item['amount']}''')
+
+def delete_expense():
+    pass
     
    
 while True:    
@@ -46,6 +50,7 @@ while True:
             
         elif choice==3:
             print("Delete Expense Selected")
+            delete_expense()
             
         elif choice==4:
             print("View Total Selected")
