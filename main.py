@@ -33,7 +33,22 @@ def view_expenses():
     {expense_item['amount']}''')
 
 def delete_expense():
-    pass
+    if not expenses:
+        print("No expenses available!!!")
+    else:
+        print("=========| YOUR EXPENSES |=========")
+        for number, expense_item in enumerate(expenses, start=1):
+            print(f'''{number}. {expense_item['category']}
+    {expense_item['description']}
+    {expense_item['amount']}''')
+        
+        n=int(input("Enter the expense number to delete: "))
+        if n>1 and n<=len(expenses):
+            actual_index=n-1
+            deleted_expense=expenses.pop(actual_index)
+            print(f"Expense {deleted_expense} deleted successfully!!")
+        else:
+            print(f"OOPS! Enter expense number within {len(expenses)}")
     
    
 while True:    
