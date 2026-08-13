@@ -43,12 +43,21 @@ def delete_expense():
     {expense_item['amount']}''')
         
         n=int(input("Enter the expense number to delete: "))
-        if n>1 and n<=len(expenses):
+        if n>=1 and n<=len(expenses):
             actual_index=n-1
             deleted_expense=expenses.pop(actual_index)
             print(f"Expense {deleted_expense} deleted successfully!!")
         else:
             print(f"OOPS! Enter expense number within {len(expenses)}")
+
+def view_total():
+    if not expenses:
+        print("No expenses available to show total!!")
+    else:
+        total=0
+        for i in expenses:
+            total=total+i['amount']
+        print(f"Your total expense is: Rs {total}")
     
    
 while True:    
@@ -69,6 +78,7 @@ while True:
             
         elif choice==4:
             print("View Total Selected")
+            view_total()
             
         elif choice==5:
             print("View Summary Selected")
