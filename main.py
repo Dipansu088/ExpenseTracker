@@ -30,7 +30,7 @@ def view_expenses():
         for number, expense_item in enumerate(expenses, start=1):
             print(f'''{number}. {expense_item['category']}
     {expense_item['description']}
-    {expense_item['amount']}''')
+    Rs: {expense_item['amount']}''')
 
 def delete_expense():
     if not expenses:
@@ -58,7 +58,22 @@ def view_total():
         for i in expenses:
             total=total+i['amount']
         print(f"Your total expense is: Rs {total}")
-    
+
+def view_summary():
+    if not expenses:
+        print("No expenses available for summary!")
+    else:
+        summary={}
+        for i in expenses:
+            category=i['category']
+            amount=i['amount']
+            if category in summary:
+                summary[category] = summary[category]+amount
+            else:
+                summary[category]=amount
+        print("=========| EXPENSE SUMMARY |=========")
+        for category,total in summary.items():
+            print(f"{category}: Rs {total}")
    
 while True:    
     menu()
@@ -82,6 +97,7 @@ while True:
             
         elif choice==5:
             print("View Summary Selected")
+            view_summary()
             
         elif choice==6:
             print("Goodbye!!!")
