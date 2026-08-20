@@ -25,13 +25,13 @@ def add_expense():
        
     while True:     
         category=input('''Enter category (Example: Food, Transport, Shopping, Entertainment, Bills): ''').strip()
-        if category.strip()=='':
+        if category=='':
             print("Category cannot be empty!")
         else:
             break
     while True:
         description=input('''Enter description (Examples: Lunch, Bus, ticket, New shirt, Movie, Electricity bill): ''').strip()
-        if description.strip()=='':
+        if description=='':
             print("Description cannot be empty!")
         else:
             break
