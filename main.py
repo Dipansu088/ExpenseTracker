@@ -61,18 +61,22 @@ def delete_expense():
             print(f'''{number}. {expense_item['category']}
     {expense_item['description']}
     {expense_item['amount']}''')
-        
-        try:
-            n=int(input("Enter the expense number to delete: "))
             
-            if n>=1 and n<=len(expenses):
-                actual_index=n-1
-                deleted_expense=expenses.pop(actual_index)
-                print(f"Expense {deleted_expense} deleted successfully!!")
-            else:
-                print(f"OOPS! Enter expense number within {len(expenses)}")
-        except ValueError:
-            print("Enter integer only")
+        while True:
+            try:
+                n=int(input("Enter the expense number to delete: "))
+                if n<=0:
+                    print("Enter integer greater than 0 only.")
+                else:
+                    if n>=1 and n<=len(expenses):
+                        actual_index=n-1
+                        deleted_expense=expenses.pop(actual_index)
+                        print(f"Expense {deleted_expense} deleted successfully!!")
+                        break
+                    else:
+                        print(f"OOPS! Enter expense number within {len(expenses)}")
+            except ValueError:
+                print("Enter integer only!")
 
 def view_total():
     if not expenses:
