@@ -12,13 +12,33 @@ def menu():
     
 def add_expense():
     print("=========| ADD EXPENSE |=========")
-    amount=float(input("Enter amount (in Rs): "))
-    category=input('''Enter category (Example: Food, Transport, Shopping, Entertainment, Bills): ''')
-    description=input('''Enter description (Examples: Lunch, Bus, ticket, New shirt, Movie, Electricity bill): ''')
+    while True:
+        amt=input("Enter amount (in Rs): ")
+        try:
+            amount=float(amt)
+            if amount<=0:
+                print("Enter valid amount.")
+            else:
+                break
+        except ValueError:
+            print("Not a valid amount!")
+       
+    while True:     
+        category=input('''Enter category (Example: Food, Transport, Shopping, Entertainment, Bills): ''').strip()
+        if category.strip()=='':
+            print("Category cannot be empty!")
+        else:
+            break
+    while True:
+        description=input('''Enter description (Examples: Lunch, Bus, ticket, New shirt, Movie, Electricity bill): ''').strip()
+        if description.strip()=='':
+            print("Description cannot be empty!")
+        else:
+            break
     expenses.append({
         "amount":amount,
-        "category":category,
-        "description":description
+    "category":category,
+    "description":description
     })
     print("Expense added successfully!")
     
@@ -42,13 +62,17 @@ def delete_expense():
     {expense_item['description']}
     {expense_item['amount']}''')
         
-        n=int(input("Enter the expense number to delete: "))
-        if n>=1 and n<=len(expenses):
-            actual_index=n-1
-            deleted_expense=expenses.pop(actual_index)
-            print(f"Expense {deleted_expense} deleted successfully!!")
-        else:
-            print(f"OOPS! Enter expense number within {len(expenses)}")
+        try:
+            n=int(input("Enter the expense number to delete: "))
+            
+            if n>=1 and n<=len(expenses):
+                actual_index=n-1
+                deleted_expense=expenses.pop(actual_index)
+                print(f"Expense {deleted_expense} deleted successfully!!")
+            else:
+                print(f"OOPS! Enter expense number within {len(expenses)}")
+        except ValueError:
+            print("Enter integer only")
 
 def view_total():
     if not expenses:
