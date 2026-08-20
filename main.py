@@ -22,13 +22,36 @@ def add_expense():
                 break
         except ValueError:
             print("Not a valid amount!")
-       
-    while True:     
-        category=input('''Enter category (Example: Food, Transport, Shopping, Entertainment, Bills): ''').strip()
-        if category=='':
-            print("Category cannot be empty!")
-        else:
-            break
+
+    print("=========| SELECT CATEGORY |=========")
+    categories=[
+        
+        'Food',
+        'Transport',
+        'Shopping',
+        'Entertainment',
+        'Bills',
+        'Education'
+        
+          ]
+    
+    while True:
+        
+        for number, category_name in enumerate(categories, start=1):
+                print(f"{number}. {category_name}")
+        try:
+            c=int(input("Select category: "))
+            if c>=1 and c<=len(categories):
+                category=categories[c-1]
+                print(f"Selected category: {category}")
+                break
+            else:
+                print("Select a valid category!")
+            
+        except ValueError:
+            print("Enter valid category number!")
+    
+    
     while True:
         description=input('''Enter description (Examples: Lunch, Bus, ticket, New shirt, Movie, Electricity bill): ''').strip()
         if description=='':
