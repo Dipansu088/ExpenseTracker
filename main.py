@@ -78,8 +78,8 @@ def view_expenses():
         for number, expense_item in enumerate(expenses, start=1):
             print(f"{number}. {expense_item['category']}")
             print(f"   {expense_item['description']}")
-            print(f"   Rs: {expense_item['amount']:.2f}\n")
-            print(f"   Date: {expense_item['date']}")
+            print(f"   Rs: {expense_item['amount']:.2f}")
+            print(f"   Date: {expense_item['date']}\n")
 
 def delete_expense():
     if not expenses:
