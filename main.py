@@ -81,10 +81,9 @@ def delete_expense():
     else:
         print("=========| YOUR EXPENSES |=========")
         for number, expense_item in enumerate(expenses, start=1):
-            for number, expense_item in enumerate(expenses, start=1):
-                print(f"{number}. {expense_item['category']}")
-                print(f"   {expense_item['description']}")
-                print(f"   Rs: {expense_item['amount']:.2f}\n")
+            print(f"{number}. {expense_item['category']}")
+            print(f"   {expense_item['description']}")
+            print(f"   Rs: {expense_item['amount']:.2f}\n")
             
         while True:
             try:
@@ -96,9 +95,9 @@ def delete_expense():
                         actual_index=n-1
                         deleted_expense=expenses.pop(actual_index)
                         print(f"Expense deleted successfully!\n")
-                        print(f"Category: {deleted_expense["category"]}")
-                        print(f"Description: {deleted_expense["description"]}")
-                        print(f"Amount: {deleted_expense["amount"]}\n")
+                        print(f"Category: {deleted_expense['category']}")
+                        print(f"Description: {deleted_expense['description']}")
+                        print(f"Amount: {deleted_expense['amount']:.2f}\n")
                         break
                     else:
                         print(f"OOPS! Enter expense number within {len(expenses)}")
