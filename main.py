@@ -104,7 +104,8 @@ def delete_expense():
                         print(f"Expense deleted successfully!\n")
                         print(f"Category: {deleted_expense['category']}")
                         print(f"Description: {deleted_expense['description']}")
-                        print(f"Amount: {deleted_expense['amount']:.2f}\n")
+                        print(f"Amount: Rs.{deleted_expense['amount']:.2f}")
+                        print(f"Date: {deleted_expense['date']}\n")
                         break
                     else:
                         print(f"OOPS! Enter expense number within {len(expenses)}")
