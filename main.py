@@ -1,3 +1,5 @@
+from datetime import date
+
 expenses=[]
 def menu():
     print("==============| EXPENSE TRACKER |==============")
@@ -50,18 +52,21 @@ def add_expense():
             
         except ValueError:
             print("Enter valid category number!")
-    
-    
+
     while True:
         description=input('''Enter description (Examples: Lunch, Bus, ticket, New shirt, Movie, Electricity bill): ''').strip()
         if description=='':
             print("Description cannot be empty!")
         else:
             break
+    
+    expense_date=date.today().strftime("%d-%m-%Y")
+    
     expenses.append({
         "amount":amount,
     "category":category,
-    "description":description
+    "description":description,
+    "date":expense_date
     })
     print("Expense added successfully!")
     
@@ -74,6 +79,7 @@ def view_expenses():
             print(f"{number}. {expense_item['category']}")
             print(f"   {expense_item['description']}")
             print(f"   Rs: {expense_item['amount']:.2f}\n")
+            print(f"   Date: {expense_item['date']}")
 
 def delete_expense():
     if not expenses:
@@ -83,7 +89,8 @@ def delete_expense():
         for number, expense_item in enumerate(expenses, start=1):
             print(f"{number}. {expense_item['category']}")
             print(f"   {expense_item['description']}")
-            print(f"   Rs: {expense_item['amount']:.2f}\n")
+            print(f"   Rs: {expense_item['amount']:.2f}")
+            print(f"   Date: {expense_item['date']}\n")
             
         while True:
             try:
