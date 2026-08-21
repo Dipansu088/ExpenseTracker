@@ -69,11 +69,11 @@ def view_expenses():
     if not expenses:
         print("No expenses available!!!")
     else:
-        print("=========| YOUR EXPENSES |=========")
+        print("=========| YOUR EXPENSES |=========\n")
         for number, expense_item in enumerate(expenses, start=1):
-            print(f'''{number}. {expense_item['category']}
-    {expense_item['description']}
-    Rs: {expense_item['amount']}''')
+            print(f"{number}. {expense_item['category']}")
+            print(f"   {expense_item['description']}")
+            print(f"   Rs: {expense_item['amount']:.2f}\n")
 
 def delete_expense():
     if not expenses:
@@ -81,9 +81,10 @@ def delete_expense():
     else:
         print("=========| YOUR EXPENSES |=========")
         for number, expense_item in enumerate(expenses, start=1):
-            print(f'''{number}. {expense_item['category']}
-    {expense_item['description']}
-    {expense_item['amount']}''')
+            for number, expense_item in enumerate(expenses, start=1):
+                print(f"{number}. {expense_item['category']}")
+                print(f"   {expense_item['description']}")
+                print(f"   Rs: {expense_item['amount']:.2f}\n")
             
         while True:
             try:
@@ -94,7 +95,10 @@ def delete_expense():
                     if n>=1 and n<=len(expenses):
                         actual_index=n-1
                         deleted_expense=expenses.pop(actual_index)
-                        print(f"Expense {deleted_expense} deleted successfully!!")
+                        print(f"Expense deleted successfully!\n")
+                        print(f"Category: {deleted_expense["category"]}")
+                        print(f"Description: {deleted_expense["description"]}")
+                        print(f"Amount: {deleted_expense["amount"]}\n")
                         break
                     else:
                         print(f"OOPS! Enter expense number within {len(expenses)}")
@@ -108,7 +112,7 @@ def view_total():
         total=0
         for i in expenses:
             total=total+i['amount']
-        print(f"Your total expense is: Rs {total}")
+        print(f"Your total expense is: Rs {total:.2f}")
 
 def view_summary():
     if not expenses:
@@ -124,7 +128,7 @@ def view_summary():
                 summary[category]=amount
         print("=========| EXPENSE SUMMARY |=========")
         for category,total in summary.items():
-            print(f"{category}: Rs {total}")
+            print(f"{category}: Rs {total:.2f}")
    
 while True:    
     menu()
