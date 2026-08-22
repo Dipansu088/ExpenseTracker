@@ -180,4 +180,4 @@ while True:
         else:
             print("Oops!!! Enter choice between 1 and 6!\n")
     except ValueError:
-        print("Oops!!! Enter integer between 1 and 6!\n")
+        print("Oops!!! Enter integer(only) between 1 and 6!\n")
