@@ -128,6 +128,9 @@ def delete_expense():
             except ValueError:
                 print("Enter integer only!")
 
+def edit_expense():
+    pass
+
 def view_total():
     if not expenses:
         print("No expenses available to show total!!\n")
@@ -166,18 +169,21 @@ while True:
             
         elif choice==3:
             delete_expense()
-            
+        
         elif choice==4:
-            view_total()
+            edit_expense()
             
         elif choice==5:
-            view_summary()
+            view_total()
             
         elif choice==6:
+            view_summary()
+            
+        elif choice==7:
             print("Goodbye!!!")
             break
         
         else:
-            print("Oops!!! Enter choice between 1 and 6!\n")
+            print("Oops!!! Enter choice between 1 and 7!\n")
     except ValueError:
-        print("Oops!!! Enter integer(only) between 1 and 6!\n")
+        print("Oops!!! Enter integer(only) between 1 and 7!\n")
