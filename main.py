@@ -129,7 +129,29 @@ def delete_expense():
                 print("Enter integer only!")
 
 def edit_expense():
-    pass
+    if not expenses:
+            print("No expenses available!!!")
+    else:
+        print("=========| YOUR EXPENSES |=========")
+        for number, expense_item in enumerate(expenses, start=1):
+            print(f"{number}. {expense_item['category']}")
+            print(f"   {expense_item['description']}")
+            print(f"   Rs: {expense_item['amount']:.2f}")
+            print(f"   Date: {expense_item['date']}\n")
+            
+    while True:
+        try:
+            n=int(input("Enter expense number to edit: "))
+            if n>=1 and n<=len(expenses):
+                actual_index=n-1
+                expense=expenses[actual_index]
+                print(f"\n-----Current Expense: -----\n")
+                print(f"   Category: {expense['category']}")
+                print(f"   Description: {expense['description']}")
+                print(f"   Rs: {expense['amount']:.2f}")
+                print(f"   Date: {expense['date']}\n")
+        except ValueError:
+            print("Enter integer only!")
 
 def view_total():
     if not expenses:
