@@ -21,9 +21,10 @@ def menu():
          1. Add Expense
          2. View Expenses
          3. Delete Expense
-         4. View Total
-         5. View Summary
-         6. Exit
+         4. Edit Expense
+         5. View Total
+         6. View Summary
+         7. Exit
          ''')
     
 def add_expense():
@@ -145,7 +146,7 @@ def edit_expense():
             if n>=1 and n<=len(expenses):
                 actual_index=n-1
                 expense=expenses[actual_index]
-                print(f"\n-----Current Expense: -----\n")
+                print(f"\n-----Selected Expense: -----\n")
                 print(f"   Category: {expense['category']}")
                 print(f"   Description: {expense['description']}")
                 print(f"   Rs: {expense['amount']:.2f}")
