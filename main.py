@@ -136,7 +136,7 @@ def edit_expense():
         print("=========| YOUR EXPENSES |=========")
         for number, expense_item in enumerate(expenses, start=1):
             print(f"{number}. {expense_item['category']}")
-            print(f"   {expense_item['description']}")
+            print(f"   Description: {expense_item['description']}")
             print(f"   Rs: {expense_item['amount']:.2f}")
             print(f"   Date: {expense_item['date']}\n")
             
@@ -156,6 +156,54 @@ def edit_expense():
                     print(f"Enter expense number between 1 and {len(expenses)}")
             except ValueError:
                 print("Enter integer only!")
+                
+        while True:
+            try:
+                new_amount=float(input("Enter new amount (in Rs): "))
+                if new_amount<=0:
+                    print("Enter valid amount!")
+                else:
+                    expense['amount']=new_amount
+                    break
+            except ValueError:
+                print("Not a valid amount!")
+        
+        print("\n=========| SELECT NEW CATEGORY |=========")
+        categories=[
+                
+                'Food',
+                'Transport',
+                'Shopping',
+                'Entertainment',
+                'Bills',
+                'Education'
+                
+                  ]
+        
+        while True:
+            for number, category_name in enumerate(categories, start=1):
+                print(f"{number}. {category_name}")
+            try:
+                new_category=int(input("Enter new category: "))
+                if new_category>=1 and new_category<=len(categories):
+                    actual_index=new_category-1
+                    expense['category']=categories[actual_index]
+                    print(f"Selected category: {categories[actual_index]}")
+                    break
+                else:
+                    print(f"Select valid category!")
+            except ValueError:
+                print("Enter valid category number!")
+        
+        while True:
+            new_description=input("Enter  new description: ").strip()
+            if new_description=="":
+                print("Description cannot be empty!")
+            else:
+                expense['description']=new_description
+                break
+        save_expenses()
+        print("\nExpense updated successfully!!!")
 
 def view_total():
     if not expenses:
