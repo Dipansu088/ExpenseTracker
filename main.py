@@ -24,7 +24,8 @@ def menu():
          4. Edit Expense
          5. View Total
          6. View Summary
-         7. Exit
+         7. Search/Filter
+         8. Exit
          ''')
     
 def add_expense():
@@ -229,6 +230,9 @@ def view_summary():
         print("=========| EXPENSE SUMMARY |=========\n")
         for category,total in summary.items():
             print(f"{category}: Rs {total:.2f}")
+            
+def search_filter():
+    pass
    
 load_expenses()
 while True:    
@@ -254,6 +258,9 @@ while True:
             view_summary()
             
         elif choice==7:
+            search_filter()
+            
+        elif choice==8:
             print("Goodbye!!!")
             break
         
