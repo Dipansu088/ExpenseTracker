@@ -232,7 +232,13 @@ def view_summary():
             print(f"{category}: Rs {total:.2f}")
             
 def search_filter():
-    pass
+    print("=========| SEARCH / FILTER |=========")
+    print("""
+    1. Search by Category
+    2. Search by Description
+    3. Filter by Date
+    4. Back
+    """)
    
 load_expenses()
 while True:    
@@ -265,6 +271,6 @@ while True:
             break
         
         else:
-            print("Oops!!! Enter choice between 1 and 7!\n")
+            print("Oops!!! Enter choice between 1 and 8!\n")
     except ValueError:
-        print("Oops!!! Enter integer(only) between 1 and 7!\n")
+        print("Oops!!! Enter integer(only) between 1 and 8!\n")
