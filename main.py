@@ -284,7 +284,21 @@ def search_filter():
         try:
             choice_2=int(input("Enter you choice: "))
             if choice_2==1:
-                search_by_category()
+                # search_by_category()
+                print("=========| SEARCH by CATEGORY |=========")
+                while True:
+                    try:
+                        category_number=int(input("Enter category number: "))
+                        if category_number>=1 and category_number<=len(categories):
+                            actual_index=category_number-1
+                            selected_category=categories[actual_index]
+                            print(f"Selected category: {selected_category}")
+                            # for
+                        else:
+                            print(f"Enter within {len(categories)}")
+                        
+                    except ValueError:
+                        print(f"Enter integer only within {len(categories)}.")
             elif choice_2==2:
                 search_by_description()
             elif choice_2==3:
