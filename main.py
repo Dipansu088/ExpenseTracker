@@ -39,6 +39,18 @@ def menu():
          8. Exit
          ''')
     
+def search_by_category():
+    print("=========| SEARCH by CATEGORY |=========")
+
+def search_by_description():
+    print("=========| SEARCH by DESCRIPTION |=========")
+
+def filter_by_date():
+    print("=========| FILTER by DATE |=========")
+
+def back():
+    print("=========| BACK |=========")
+    
 def add_expense():
     print("=========| ADD EXPENSE |=========\n")
     while True:
@@ -253,11 +265,32 @@ def search_filter():
     4. Back
     """)
     
+    categories=[
+            
+            'Food',
+            'Transport',
+            'Shopping',
+            'Entertainment',
+            'Bills',
+            'Education'
+            
+              ]
+    
     while True:
+        
+        for number, category_name in enumerate(categories, start=1):
+            print(f"{number}. {category_name}")
+            
         try:
             choice_2=int(input("Enter you choice: "))
             if choice_2==1:
-                print("=========| SEARCH by CATEGORY |=========")
+                search_by_category()
+            elif choice_2==2:
+                search_by_description()
+            elif choice_2==3:
+                filter_by_date()
+            elif choice_2==4:
+                back()
                 
         except ValueError:
             print(f"Enter inter only choice within 1 and 4!")
