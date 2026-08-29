@@ -3,6 +3,17 @@ import json
 
 expenses=[]
 
+def display_expenses():
+    if not expenses:
+        print("No expenses available!!!")
+    else:
+        print("=========| YOUR EXPENSES |=========")
+        for number, expense_item in enumerate(expenses, start=1):
+            print(f"{number}. {expense_item['category']}")
+            print(f"   {expense_item['description']}")
+            print(f"   Rs: {expense_item['amount']:.2f}")
+            print(f"   Date: {expense_item['date']}\n")
+
 def load_expenses():
     global expenses
     try:
@@ -232,6 +243,8 @@ def view_summary():
             print(f"{category}: Rs {total:.2f}")
             
 def search_filter():
+    display_expenses()
+    
     print("=========| SEARCH / FILTER |=========")
     print("""
     1. Search by Category
@@ -239,6 +252,15 @@ def search_filter():
     3. Filter by Date
     4. Back
     """)
+    
+    while True:
+        try:
+            choice_2=int(input("Enter you choice: "))
+            if choice_2==1:
+                print("=========| SEARCH by CATEGORY |=========")
+                
+        except ValueError:
+            print(f"Enter inter only choice within 1 and 4!")
    
 load_expenses()
 while True:    
