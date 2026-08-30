@@ -7,7 +7,7 @@ def display_expenses():
     if not expenses:
         print("No expenses available!!!")
     else:
-        print("=========| YOUR EXPENSES |=========")
+        print("\n=========| YOUR EXPENSES |=========\n")
         for number, expense_item in enumerate(expenses, start=1):
             print(f"{number}. {expense_item['category']}")
             print(f"   {expense_item['description']}")
@@ -40,7 +40,7 @@ def menu():
          ''')
     
 def search_by_category():
-    print("=========| SEARCH by CATEGORY |=========")
+    print("\n=========| SEARCH by CATEGORY |=========\n")
     
     categories=[
                 
@@ -54,24 +54,33 @@ def search_by_category():
                   ]
                 
     while True:
+        
         for number, category_name in enumerate(categories, start=1):
             print(f"{number}. {category_name}")
+            
         try:
-            category_number=int(input("Enter category number: "))
+            category_number=int(input("\nEnter category number: "))
             if category_number>=1 and category_number<=len(categories):
                 actual_index=category_number-1
                 selected_category=categories[actual_index]
                 print(f"Selected category: {selected_category}")
-                for expense in expenses:
-                    if expense['category']==selected_category:
-                        print(f"\n-----Selected Category: '{selected_category}'-----\n")
-                        print(f"   Category: {expense['category']}")
-                        print(f"   Description: {expense['description']}")
-                        print(f"   Rs: {expense['amount']:.2f}")
-                        print(f"   Date: {expense['date']}\n")
+                # for expense in expenses:
+                #     if expense['category']==selected_category:
+                #         print(f"\n-----Selected Category: '{selected_category}'-----\n")
+                #         print(f"   Category: {expense['category']}")
+                #         print(f"   Description: {expense['description']}")
+                #         print(f"   Rs: {expense['amount']:.2f}")
+                #         print(f"   Date: {expense['date']}\n")
+                #     else:
+                #         print(f"No expenses found for '{selected_category}'!")
+                # break
+                for i in expenses:
+                    while i['category']==selected_category:
+                        print(f"   Category: {i['category']}")
+                        print(f"   Description: {i['description']}")
+                        print(f"   Rs: {i['amount']:.2f}")
+                        print(f"   Date: {i['date']}\n")
                         break
-                    else:
-                        print(f"No expenses found for '{selected_category}'!")
             else:
                 print(f"Enter within {len(categories)}")
                             
@@ -100,7 +109,7 @@ def add_expense():
         except ValueError:
             print("Not a valid amount!")
 
-    print("=========| SELECT CATEGORY |=========")
+    print(f"\n=========| SELECT CATEGORY |=========\n")
     categories=[
         
         'Food',
@@ -117,7 +126,7 @@ def add_expense():
         for number, category_name in enumerate(categories, start=1):
                 print(f"{number}. {category_name}")
         try:
-            c=int(input("Select category: "))
+            c=int(input(f"\nSelect category: "))
             if c>=1 and c<=len(categories):
                 category=categories[c-1]
                 print(f"Selected category: {category}")
