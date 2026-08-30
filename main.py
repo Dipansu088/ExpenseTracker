@@ -64,23 +64,18 @@ def search_by_category():
                 actual_index=category_number-1
                 selected_category=categories[actual_index]
                 print(f"Selected category: {selected_category}")
-                # for expense in expenses:
-                #     if expense['category']==selected_category:
-                #         print(f"\n-----Selected Category: '{selected_category}'-----\n")
-                #         print(f"   Category: {expense['category']}")
-                #         print(f"   Description: {expense['description']}")
-                #         print(f"   Rs: {expense['amount']:.2f}")
-                #         print(f"   Date: {expense['date']}\n")
-                #     else:
-                #         print(f"No expenses found for '{selected_category}'!")
-                # break
-                for i in expenses:
-                    while i['category']==selected_category:
-                        print(f"   Category: {i['category']}")
-                        print(f"   Description: {i['description']}")
-                        print(f"   Rs: {i['amount']:.2f}")
-                        print(f"   Date: {i['date']}\n")
-                        break
+                
+                found=False
+                print(f"\n-----Selected Category: '{selected_category}'-----\n")
+                for expense in expenses:
+                    if expense['category']==selected_category:
+                        print(f"   Category: {expense['category']}")
+                        print(f"   Description: {expense['description']}")
+                        print(f"   Rs: {expense['amount']:.2f}")
+                        print(f"   Date: {expense['date']}\n")
+                        found=True
+                if not found:
+                    print(f"No expenses found for '{selected_category}'!")
             else:
                 print(f"Enter within {len(categories)}")
                             
@@ -300,9 +295,11 @@ def view_summary():
             print(f"{category}: Rs {total:.2f}")
             
 def search_filter():
-    display_expenses()
+    if not expenses:
+        print("No expenses available!")
+        return
     
-    print("=========| SEARCH / FILTER |=========")
+    print("\n=========| SEARCH / FILTER |=========")
     print("""
     1. Search by Category
     2. Search by Description
@@ -324,7 +321,7 @@ def search_filter():
                 filter_by_date()
                 
             elif choice_2==4:
-                back()
+                break
                 
         except ValueError:
             print(f"Enter inter only choice within 1 and 4!")
