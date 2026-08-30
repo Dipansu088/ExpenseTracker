@@ -293,7 +293,16 @@ def search_filter():
                             actual_index=category_number-1
                             selected_category=categories[actual_index]
                             print(f"Selected category: {selected_category}")
-                            # for
+                            for expense in expenses:
+                                if expense['category']==selected_category:
+                                    print(f"\n-----Selected Category: '{selected_category}'-----\n")
+                                    print(f"   Category: {expense['category']}")
+                                    print(f"   Description: {expense['description']}")
+                                    print(f"   Rs: {expense['amount']:.2f}")
+                                    print(f"   Date: {expense['date']}\n")
+                                    break
+                                else:
+                                    print(f"No expenses found for '{selected_category}'!")
                         else:
                             print(f"Enter within {len(categories)}")
                         
