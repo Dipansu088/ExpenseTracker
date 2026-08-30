@@ -41,6 +41,42 @@ def menu():
     
 def search_by_category():
     print("=========| SEARCH by CATEGORY |=========")
+    
+    categories=[
+                
+                'Food',
+                'Transport',
+                'Shopping',
+                'Entertainment',
+                'Bills',
+                'Education'
+                
+                  ]
+                
+    while True:
+        for number, category_name in enumerate(categories, start=1):
+            print(f"{number}. {category_name}")
+        try:
+            category_number=int(input("Enter category number: "))
+            if category_number>=1 and category_number<=len(categories):
+                actual_index=category_number-1
+                selected_category=categories[actual_index]
+                print(f"Selected category: {selected_category}")
+                for expense in expenses:
+                    if expense['category']==selected_category:
+                        print(f"\n-----Selected Category: '{selected_category}'-----\n")
+                        print(f"   Category: {expense['category']}")
+                        print(f"   Description: {expense['description']}")
+                        print(f"   Rs: {expense['amount']:.2f}")
+                        print(f"   Date: {expense['date']}\n")
+                        break
+                    else:
+                        print(f"No expenses found for '{selected_category}'!")
+            else:
+                print(f"Enter within {len(categories)}")
+                            
+        except ValueError:
+            print(f"Enter integer only within {len(categories)}.")
 
 def search_by_description():
     print("=========| SEARCH by DESCRIPTION |=========")
@@ -265,53 +301,19 @@ def search_filter():
     4. Back
     """)
     
-    categories=[
-            
-            'Food',
-            'Transport',
-            'Shopping',
-            'Entertainment',
-            'Bills',
-            'Education'
-            
-              ]
-    
     while True:
-        
-        for number, category_name in enumerate(categories, start=1):
-            print(f"{number}. {category_name}")
             
         try:
             choice_2=int(input("Enter you choice: "))
             if choice_2==1:
-                # search_by_category()
-                print("=========| SEARCH by CATEGORY |=========")
-                while True:
-                    try:
-                        category_number=int(input("Enter category number: "))
-                        if category_number>=1 and category_number<=len(categories):
-                            actual_index=category_number-1
-                            selected_category=categories[actual_index]
-                            print(f"Selected category: {selected_category}")
-                            for expense in expenses:
-                                if expense['category']==selected_category:
-                                    print(f"\n-----Selected Category: '{selected_category}'-----\n")
-                                    print(f"   Category: {expense['category']}")
-                                    print(f"   Description: {expense['description']}")
-                                    print(f"   Rs: {expense['amount']:.2f}")
-                                    print(f"   Date: {expense['date']}\n")
-                                    break
-                                else:
-                                    print(f"No expenses found for '{selected_category}'!")
-                        else:
-                            print(f"Enter within {len(categories)}")
-                        
-                    except ValueError:
-                        print(f"Enter integer only within {len(categories)}.")
+                search_by_category()
+                
             elif choice_2==2:
                 search_by_description()
+                
             elif choice_2==3:
                 filter_by_date()
+                
             elif choice_2==4:
                 back()
                 
