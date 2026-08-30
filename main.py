@@ -76,6 +76,7 @@ def search_by_category():
                         found=True
                 if not found:
                     print(f"No expenses found for '{selected_category}'!")
+                break
             else:
                 print(f"Enter within {len(categories)}")
                             
@@ -322,6 +323,9 @@ def search_filter():
                 
             elif choice_2==4:
                 break
+            
+            else:
+                print("Enter choice between 1 and 4!")
                 
         except ValueError:
             print(f"Enter inter only choice within 1 and 4!")
