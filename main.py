@@ -84,7 +84,22 @@ def search_by_category():
             print(f"Enter integer only within {len(categories)}.")
 
 def search_by_description():
-    print("=========| SEARCH by DESCRIPTION |=========")
+    print("\n=========| SEARCH by DESCRIPTION |=========\n")
+    
+    while True:
+            search_description=input("Enter description you want to search by: ").strip()
+            
+            found=False
+            for expense in expenses:
+                if search_description.lower() in expense['description'].lower():
+                    print(f"   Category: {expense['category']}")
+                    print(f"   Description: {expense['description']}")
+                    print(f"   Rs: {expense['amount']:.2f}")
+                    print(f"   Date: {expense['date']}\n")
+                    found=True
+                    
+            if not found:
+                print(f"No expenses of {search_description} available.")
 
 def filter_by_date():
     print("=========| FILTER by DATE |=========")
@@ -294,6 +309,7 @@ def view_summary():
         print("=========| EXPENSE SUMMARY |=========\n")
         for category,total in summary.items():
             print(f"{category}: Rs {total:.2f}")
+            
             
 def search_filter():
     if not expenses:
