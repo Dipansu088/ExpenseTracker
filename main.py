@@ -43,15 +43,20 @@ def search_by_category():
     print("\n=========| SEARCH by CATEGORY |=========\n")
     
     categories=[
-                
-                'Food',
-                'Transport',
-                'Shopping',
-                'Entertainment',
-                'Bills',
-                'Education'
-                
-                  ]
+            
+            'Transfers',
+            'Groceries',
+            'Transport',
+            'Bills & recharges',
+            'Entertainment',
+            'Shopping',
+            'Food & dining',
+            'Miscellaneous',
+            'Medical',
+            'Personal',
+            'Logistics',
+    
+              ]
                 
     while True:
         
@@ -133,13 +138,18 @@ def add_expense():
     print(f"\n=========| SELECT CATEGORY |=========\n")
     categories=[
         
-        'Food',
+        'Transfers',
+        'Groceries',
         'Transport',
-        'Shopping',
+        'Bills & recharges',
         'Entertainment',
-        'Bills',
-        'Education'
-        
+        'Shopping',
+        'Food & dining',
+        'Miscellaneous',
+        'Medical',
+        'Personal',
+        'Logistics',
+
           ]
     
     while True:
@@ -261,13 +271,18 @@ def edit_expense():
         print("\n=========| SELECT NEW CATEGORY |=========")
         categories=[
                 
-                'Food',
+                'Transfers',
+                'Groceries',
                 'Transport',
-                'Shopping',
+                'Bills & recharges',
                 'Entertainment',
-                'Bills',
-                'Education'
-                
+                'Shopping',
+                'Food & dining',
+                'Miscellaneous',
+                'Medical',
+                'Personal',
+                'Logistics',
+        
                   ]
         
         while True:
