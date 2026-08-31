@@ -100,12 +100,22 @@ def search_by_description():
                     
             if not found:
                 print(f"No expenses of {search_description} available.")
+            break
 
 def filter_by_date():
-    print("=========| FILTER by DATE |=========")
-
-def back():
-    print("=========| BACK |=========")
+    print("\n=========| FILTER by DATE |=========\n")
+    search_date=input("Enter the date to search (DD-MM-YYYY): \n").strip()
+    
+    found=False
+    for expense in expenses:
+        if expense['date']==search_date:
+            print(f"   Category: {expense['category']}")
+            print(f"   Description: {expense['description']}")
+            print(f"   Rs: {expense['amount']:.2f}")
+            print(f"   Date: {expense['date']}\n")
+            found=True
+    if not found:
+        print(f"No expense of {search_date} available!")
     
 def add_expense():
     print("=========| ADD EXPENSE |=========\n")
@@ -170,7 +180,7 @@ def view_expenses():
     if not expenses:
         print("No expenses available to display!!!")
     else:
-        print("=========| YOUR EXPENSES |=========\n")
+        print("\n=========| YOUR EXPENSES |=========\n")
         for number, expense_item in enumerate(expenses, start=1):
             print(f"{number}. {expense_item['category']}")
             print(f"   {expense_item['description']}")
@@ -378,5 +388,6 @@ while True:
         
         else:
             print("Oops!!! Enter choice between 1 and 8!\n")
+            
     except ValueError:
         print("Oops!!! Enter integer(only) between 1 and 8!\n")
