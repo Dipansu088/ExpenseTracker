@@ -109,7 +109,7 @@ def search_by_description():
 
 def filter_by_date():
     print("\n=========| FILTER by DATE |=========\n")
-    search_date=input("Enter the date to search (DD-MM-YYYY): \n").strip()
+    search_date=input("Enter the date to search (DD-MM-YYYY): ").strip()
     
     found=False
     for expense in expenses:
@@ -199,9 +199,9 @@ def view_expenses():
 
 def delete_expense():
     if not expenses:
-        print("No expenses available!!!")
+        print("\nNo expenses available!!!\n")
     else:
-        print("=========| YOUR EXPENSES |=========")
+        print("\n=========| YOUR EXPENSES |=========\n")
         for number, expense_item in enumerate(expenses, start=1):
             print(f"{number}. {expense_item['category']}")
             print(f"   {expense_item['description']}")
@@ -231,9 +231,9 @@ def delete_expense():
 
 def edit_expense():
     if not expenses:
-            print("No expenses available!!!")
+            print("\nNo expenses available!!!\n")
     else:
-        print("=========| YOUR EXPENSES |=========")
+        print("\n=========| YOUR EXPENSES |=========\n")
         for number, expense_item in enumerate(expenses, start=1):
             print(f"{number}. {expense_item['category']}")
             print(f"   Description: {expense_item['description']}")
@@ -301,18 +301,18 @@ def edit_expense():
                 print("Enter valid category number!")
         
         while True:
-            new_description=input("Enter  new description: ").strip()
+            new_description=input("Enter new description: ").strip()
             if new_description=="":
                 print("Description cannot be empty!")
             else:
                 expense['description']=new_description
                 break
         save_expenses()
-        print("\nExpense updated successfully!!!")
+        print("\nExpense updated successfully!!!\n")
 
 def view_total():
     if not expenses:
-        print("No expenses available to show total!!\n")
+        print("\nNo expenses available to show total!!\n")
     else:
         total=0
         for i in expenses:
@@ -337,19 +337,19 @@ def view_summary():
             
             
 def search_filter():
-    if not expenses:
-        print("No expenses available!")
-        return
-    
-    print("\n=========| SEARCH / FILTER |=========")
-    print("""
-    1. Search by Category
-    2. Search by Description
-    3. Filter by Date
-    4. Back
-    """)
-    
+
     while True:
+        if not expenses:
+                print("No expenses available!")
+                return
+            
+        print("\n=========| SEARCH / FILTER |=========")
+        print("""
+            1. Search by Category
+            2. Search by Description
+            3. Filter by Date
+            4. Back
+            """)
             
         try:
             choice_2=int(input("Enter you choice: "))
