@@ -176,6 +176,11 @@ def view_expenses():
     display_expenses()
 
 def delete_expense():
+    
+    if not expenses:
+        print("\nNo expenses available to display!!!\n")
+        return
+    
     display_expenses()
             
     while True:
@@ -200,6 +205,11 @@ def delete_expense():
             print("Enter integer only!")
 
 def edit_expense():
+    
+    if not expenses:
+        print("\nNo expenses available to display!!!\n")
+        return
+    
     display_expenses()
             
     while True:
