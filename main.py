@@ -5,7 +5,7 @@ expenses=[]
 
 def display_expenses():
     if not expenses:
-        print("No expenses available!!!")
+        print("\nNo expenses available!!!\n")
     else:
         print("\n=========| YOUR EXPENSES |=========\n")
         for number, expense_item in enumerate(expenses, start=1):
@@ -187,89 +187,65 @@ def add_expense():
     print("Expense added successfully!\n")
     
 def view_expenses():
-    if not expenses:
-        print("No expenses available to display!!!")
-    else:
-        print("\n=========| YOUR EXPENSES |=========\n")
-        for number, expense_item in enumerate(expenses, start=1):
-            print(f"{number}. {expense_item['category']}")
-            print(f"   {expense_item['description']}")
-            print(f"   Rs: {expense_item['amount']:.2f}")
-            print(f"   Date: {expense_item['date']}\n")
+    display_expenses()
 
 def delete_expense():
-    if not expenses:
-        print("\nNo expenses available!!!\n")
-    else:
-        print("\n=========| YOUR EXPENSES |=========\n")
-        for number, expense_item in enumerate(expenses, start=1):
-            print(f"{number}. {expense_item['category']}")
-            print(f"   {expense_item['description']}")
-            print(f"   Rs: {expense_item['amount']:.2f}")
-            print(f"   Date: {expense_item['date']}\n")
+    display_expenses()
             
-        while True:
-            try:
-                n=int(input("Enter the expense number to delete: "))
-                if n<=0:
-                    print("Enter integer greater than 0 only.")
-                else:
-                    if n>=1 and n<=len(expenses):
-                        actual_index=n-1
-                        deleted_expense=expenses.pop(actual_index)
-                        save_expenses()
-                        print(f"Expense deleted successfully!\n")
-                        print(f"Category: {deleted_expense['category']}")
-                        print(f"Description: {deleted_expense['description']}")
-                        print(f"Amount: Rs.{deleted_expense['amount']:.2f}")
-                        print(f"Date: {deleted_expense['date']}\n")
-                        break
-                    else:
-                        print(f"OOPS! Enter expense number within {len(expenses)}")
-            except ValueError:
-                print("Enter integer only!")
-
-def edit_expense():
-    if not expenses:
-            print("\nNo expenses available!!!\n")
-    else:
-        print("\n=========| YOUR EXPENSES |=========\n")
-        for number, expense_item in enumerate(expenses, start=1):
-            print(f"{number}. {expense_item['category']}")
-            print(f"   Description: {expense_item['description']}")
-            print(f"   Rs: {expense_item['amount']:.2f}")
-            print(f"   Date: {expense_item['date']}\n")
-            
-        while True:
-            try:
-                n=int(input("Enter expense number to edit: "))
+    while True:
+        try:
+            n=int(input("Enter the expense number to delete: "))
+            if n<=0:
+                print("Enter integer greater than 0 only.")
+            else:
                 if n>=1 and n<=len(expenses):
                     actual_index=n-1
-                    expense=expenses[actual_index]
-                    print(f"\n-----Selected Expense: -----\n")
-                    print(f"   Category: {expense['category']}")
-                    print(f"   Description: {expense['description']}")
-                    print(f"   Rs: {expense['amount']:.2f}")
-                    print(f"   Date: {expense['date']}\n")
+                    deleted_expense=expenses.pop(actual_index)
+                    save_expenses()
+                    print(f"Expense deleted successfully!\n")
+                    print(f"Category: {deleted_expense['category']}")
+                    print(f"Description: {deleted_expense['description']}")
+                    print(f"Amount: Rs.{deleted_expense['amount']:.2f}")
+                    print(f"Date: {deleted_expense['date']}\n")
                     break
                 else:
-                    print(f"Enter expense number between 1 and {len(expenses)}")
-            except ValueError:
-                print("Enter integer only!")
+                    print(f"OOPS! Enter expense number within {len(expenses)}")
+        except ValueError:
+            print("Enter integer only!")
+
+def edit_expense():
+    display_expenses()
+            
+    while True:
+        try:
+            n=int(input("Enter expense number to edit: "))
+            if n>=1 and n<=len(expenses):
+                actual_index=n-1
+                expense=expenses[actual_index]
+                print(f"\n-----Selected Expense: -----\n")
+                print(f"   Category: {expense['category']}")
+                print(f"   Description: {expense['description']}")
+                print(f"   Rs: {expense['amount']:.2f}")
+                print(f"   Date: {expense['date']}\n")
+                break
+            else:
+                print(f"Enter expense number between 1 and {len(expenses)}")
+        except ValueError:
+            print("Enter integer only!")
                 
-        while True:
-            try:
-                new_amount=float(input("Enter new amount (in Rs): "))
-                if new_amount<=0:
-                    print("Enter valid amount!")
-                else:
-                    expense['amount']=new_amount
-                    break
-            except ValueError:
-                print("Not a valid amount!")
+    while True:
+        try:
+            new_amount=float(input("Enter new amount (in Rs): "))
+            if new_amount<=0:
+                print("Enter valid amount!")
+            else:
+                expense['amount']=new_amount
+                break
+        except ValueError:
+            print("Not a valid amount!")
         
-        print("\n=========| SELECT NEW CATEGORY |=========")
-        categories=[
+    print("\n=========| SELECT NEW CATEGORY |=========")
+    categories=[
                 
                 'Transfers',
                 'Groceries',
@@ -285,30 +261,30 @@ def edit_expense():
         
                   ]
         
-        while True:
-            for number, category_name in enumerate(categories, start=1):
-                print(f"{number}. {category_name}")
-            try:
-                new_category=int(input("Enter new category: "))
-                if new_category>=1 and new_category<=len(categories):
-                    actual_index=new_category-1
-                    expense['category']=categories[actual_index]
-                    print(f"Selected category: {categories[actual_index]}")
-                    break
-                else:
-                    print(f"Select valid category!")
-            except ValueError:
-                print("Enter valid category number!")
-        
-        while True:
-            new_description=input("Enter new description: ").strip()
-            if new_description=="":
-                print("Description cannot be empty!")
-            else:
-                expense['description']=new_description
+    while True:
+        for number, category_name in enumerate(categories, start=1):
+            print(f"{number}. {category_name}")
+        try:
+            new_category=int(input("Enter new category: "))
+            if new_category>=1 and new_category<=len(categories):
+                actual_index=new_category-1
+                expense['category']=categories[actual_index]
+                print(f"Selected category: {categories[actual_index]}")
                 break
-        save_expenses()
-        print("\nExpense updated successfully!!!\n")
+            else:
+                print(f"Select valid category!")
+        except ValueError:
+            print("Enter valid category number!")
+        
+    while True:
+        new_description=input("Enter new description: ").strip()
+        if new_description=="":
+            print("Description cannot be empty!")
+        else:
+            expense['description']=new_description
+            break
+    save_expenses()
+    print("\nExpense updated successfully!!!\n")
 
 def view_total():
     if not expenses:
