@@ -3,6 +3,23 @@ import json
 
 expenses=[]
 
+CATEGORIES=[
+            
+            'Transfers',
+            'Groceries',
+            'Transport',
+            'Bills & recharges',
+            'Entertainment',
+            'Shopping',
+            'Food & dining',
+            'Miscellaneous',
+            'Medical',
+            'Personal',
+            'Logistics',
+            'Travel'
+    
+              ]
+
 def display_expenses():
     if not expenses:
         print("\nNo expenses available!!!\n")
@@ -41,33 +58,17 @@ def menu():
     
 def search_by_category():
     print("\n=========| SEARCH by CATEGORY |=========\n")
-    
-    categories=[
-            
-            'Transfers',
-            'Groceries',
-            'Transport',
-            'Bills & recharges',
-            'Entertainment',
-            'Shopping',
-            'Food & dining',
-            'Miscellaneous',
-            'Medical',
-            'Personal',
-            'Logistics',
-    
-              ]
                 
     while True:
         
-        for number, category_name in enumerate(categories, start=1):
+        for number, category_name in enumerate(CATEGORIES, start=1):
             print(f"{number}. {category_name}")
             
         try:
             category_number=int(input("\nEnter category number: "))
-            if category_number>=1 and category_number<=len(categories):
+            if category_number>=1 and category_number<=len(CATEGORIES):
                 actual_index=category_number-1
-                selected_category=categories[actual_index]
+                selected_category=CATEGORIES[actual_index]
                 print(f"Selected category: {selected_category}")
                 
                 found=False
@@ -83,10 +84,10 @@ def search_by_category():
                     print(f"No expenses found for '{selected_category}'!")
                 break
             else:
-                print(f"Enter within {len(categories)}")
+                print(f"Enter within {len(CATEGORIES)}")
                             
         except ValueError:
-            print(f"Enter integer only within {len(categories)}.")
+            print(f"Enter integer only within {len(CATEGORIES)}.")
 
 def search_by_description():
     print("\n=========| SEARCH by DESCRIPTION |=========\n")
@@ -136,30 +137,15 @@ def add_expense():
             print("Not a valid amount!")
 
     print(f"\n=========| SELECT CATEGORY |=========\n")
-    categories=[
-        
-        'Transfers',
-        'Groceries',
-        'Transport',
-        'Bills & recharges',
-        'Entertainment',
-        'Shopping',
-        'Food & dining',
-        'Miscellaneous',
-        'Medical',
-        'Personal',
-        'Logistics',
-
-          ]
     
     while True:
         
-        for number, category_name in enumerate(categories, start=1):
+        for number, category_name in enumerate(CATEGORIES, start=1):
                 print(f"{number}. {category_name}")
         try:
             c=int(input(f"\nSelect category: "))
-            if c>=1 and c<=len(categories):
-                category=categories[c-1]
+            if c>=1 and c<=len(CATEGORIES):
+                category=CATEGORIES[c-1]
                 print(f"Selected category: {category}")
                 break
             else:
@@ -245,31 +231,16 @@ def edit_expense():
             print("Not a valid amount!")
         
     print("\n=========| SELECT NEW CATEGORY |=========")
-    categories=[
-                
-                'Transfers',
-                'Groceries',
-                'Transport',
-                'Bills & recharges',
-                'Entertainment',
-                'Shopping',
-                'Food & dining',
-                'Miscellaneous',
-                'Medical',
-                'Personal',
-                'Logistics',
-        
-                  ]
         
     while True:
-        for number, category_name in enumerate(categories, start=1):
+        for number, category_name in enumerate(CATEGORIES, start=1):
             print(f"{number}. {category_name}")
         try:
             new_category=int(input("Enter new category: "))
-            if new_category>=1 and new_category<=len(categories):
+            if new_category>=1 and new_category<=len(CATEGORIES):
                 actual_index=new_category-1
-                expense['category']=categories[actual_index]
-                print(f"Selected category: {categories[actual_index]}")
+                expense['category']=CATEGORIES[actual_index]
+                print(f"Selected category: {CATEGORIES[actual_index]}")
                 break
             else:
                 print(f"Select valid category!")
