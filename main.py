@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 import json
 
 expenses=[]
@@ -108,9 +108,21 @@ def search_by_description():
                 print(f"No expenses of {search_description} available.")
             break
 
+def validate_date(date_input):
+    try:
+        datetime.strptime(date_input, "%d-%m-%Y")
+        return True
+    except ValueError:
+        return False
+
 def filter_by_date():
     print("\n=========| FILTER by DATE |=========\n")
-    search_date=input("Enter the date to search (DD-MM-YYYY): ").strip()
+
+    while True:
+        search_date=input("Enter the date to search (DD-MM-YYYY): ").strip()
+        if validate_date(search_date):
+            break
+        print("Invalid date! Please enter a valid date in DD-MM-YYYY format.")
     
     found=False
     for expense in expenses:
