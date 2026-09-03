@@ -42,6 +42,17 @@ def load_expenses():
 def save_expenses():
     with open("expenses.json", "w") as file:
         json.dump(expenses, file, indent=4)
+        
+def load_budget():
+    try:
+        with open("budget.json","r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return 0
+    
+def save_budget(budget):
+    with open("budget.json", "w") as file:
+        json.dump(budget, file, indent=4)
 
 def menu():
     print("==============| EXPENSE TRACKER |==============")
@@ -53,7 +64,9 @@ def menu():
          5. View Total
          6. View Summary
          7. Search/Filter
-         8. Exit
+         8. Set Monthly Budget
+         9. View Budget Status
+         10. Exit
          ''')
     
 def get_valid_amount():
@@ -67,6 +80,18 @@ def get_valid_amount():
                 return amount
         except ValueError:
             print("Not a valid amount!")
+            
+def get_current_month_expenses():
+    current_month=date.today().strftime("%m-%Y")
+    total=0
+    
+    for expense in expenses:
+        expense_month=expense['date'][3:]
+        
+        if expense_month==current_month:
+            total+=expense['amount']
+    
+    return total
     
 def search_by_category():
     print("\n=========| SEARCH by CATEGORY |=========\n")
@@ -334,8 +359,51 @@ def search_filter():
                 
         except ValueError:
             print(f"Enter inter only choice within 1 and 4!")
+            
+def set_budget():
+    global budget
+    while True:
+        print("\n=========| SET BUDGET |=========\n")
+        try:
+            new_budget=float(input("Enter new budget: "))
+            if new_budget<=0:
+                print("Budget must be greater than 0.")
+            else:
+                budget=new_budget
+                save_budget(budget)
+                print(f"\nMonthly budget was set to Rs: {budget:.2f}\n")
+                break
+        except ValueError:
+            print("Enter valid amount/budget!")
+            
+def view_budget_status():
+    
+    if budget<=0:
+        print("\nNo monthly budget has been set!\n")
+        return
+    
+    current_month_expenses=get_current_month_expenses()
+    remaining= budget - current_month_expenses
+    percentage_used=(current_month_expenses/budget)*100
+    
+    print("\n=========| BUDGET STATUS |=========\n")
+    print(f"Monthly Budget : Rs {budget:.2f}")
+    print(f"Spent          : Rs {current_month_expenses:.2f}")
+    print(f"Remaining      : Rs {remaining:.2f}")
+    print(f"Budget Used    : {percentage_used:.2f}%")
+    
+    if percentage_used>=100:
+        print(f"WARNING!!! You have exceeded your monthly budget!!!")
+    elif percentage_used>=80:
+        print(f"WARNING!!! You are nearing your monthly budget!!")
+    else:
+        print(f"You are within your monthly budget!")
+        
+    print()
    
 load_expenses()
+budget=load_budget()
+
 while True:    
     menu()
     try:
@@ -362,11 +430,18 @@ while True:
             search_filter()
             
         elif choice==8:
+            set_budget()
+            
+        
+        elif choice==9:
+            view_budget_status()
+            
+        elif choice==10:
             print("Goodbye!!!")
             break
         
         else:
-            print("Oops!!! Enter choice between 1 and 8!\n")
+            print("Oops!!! Enter choice between 1 and 10!\n")
             
     except ValueError:
-        print("Oops!!! Enter integer(only) between 1 and 8!\n")
+        print("Oops!!! Enter integer(only) between 1 and 10!\n")
