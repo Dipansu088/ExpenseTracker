@@ -56,6 +56,18 @@ def menu():
          8. Exit
          ''')
     
+def get_valid_amount():
+    while True:
+        amount_input=input("Enter amount (in Rs): ")
+        try:
+            amount=float(amount_input)
+            if amount<=0:
+                print("Enter valid amount.")
+            else:
+                return amount
+        except ValueError:
+            print("Not a valid amount!")
+    
 def search_by_category():
     print("\n=========| SEARCH by CATEGORY |=========\n")
                 
@@ -137,16 +149,7 @@ def filter_by_date():
     
 def add_expense():
     print("=========| ADD EXPENSE |=========\n")
-    while True:
-        amt=input("Enter amount (in Rs): ")
-        try:
-            amount=float(amt)
-            if amount<=0:
-                print("Enter valid amount.")
-            else:
-                break
-        except ValueError:
-            print("Not a valid amount!")
+    amount=get_valid_amount()
 
     print(f"\n=========| SELECT CATEGORY |=========\n")
     
@@ -240,17 +243,9 @@ def edit_expense():
                 print(f"Enter expense number between 1 and {len(expenses)}")
         except ValueError:
             print("Enter integer only!")
-                
-    while True:
-        try:
-            new_amount=float(input("Enter new amount (in Rs): "))
-            if new_amount<=0:
-                print("Enter valid amount!")
-            else:
-                expense['amount']=new_amount
-                break
-        except ValueError:
-            print("Not a valid amount!")
+    
+    new_amount=get_valid_amount()
+    expense['amount']=new_amount
         
     print("\n=========| SELECT NEW CATEGORY |=========")
         
