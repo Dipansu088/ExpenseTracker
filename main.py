@@ -66,7 +66,8 @@ def menu():
          7. Search/Filter
          8. Set Monthly Budget
          9. View Budget Status
-         10. Exit
+         10. Clear All Expenses
+         11. Exit
          ''')
     
 def get_valid_amount():
@@ -329,8 +330,8 @@ def search_filter():
 
     while True:
         if not expenses:
-                print("No expenses available!")
-                return
+            print("No expenses available!")
+            return
             
         print("\n=========| SEARCH / FILTER |=========")
         print("""
@@ -400,6 +401,23 @@ def view_budget_status():
         print(f"You are within your monthly budget!")
         
     print()
+    
+def clear_expenses():
+    if not expenses:
+        print("No expenses available!")
+        return
+            
+    while True:
+        choice=input("Do you really want to clear all the expenses?? Type Y/N(Yes/No): ").strip()
+        if choice.lower()=='y':
+            expenses.clear()
+            save_expenses()
+            print("All expenses cleared!!!")
+            return
+        elif choice.lower()=='n':
+            break
+        else:
+            print("Enter Y or N!!")
    
 load_expenses()
 budget=load_budget()
@@ -432,11 +450,13 @@ while True:
         elif choice==8:
             set_budget()
             
-        
         elif choice==9:
             view_budget_status()
             
         elif choice==10:
+            clear_expenses()
+            
+        elif choice==11:
             print("Goodbye!!!")
             break
         
