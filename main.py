@@ -1,5 +1,6 @@
 from datetime import date, datetime
 import json
+import csv
 
 expenses=[]
 
@@ -67,7 +68,8 @@ def menu():
          8. Set Monthly Budget
          9. View Budget Status
          10. Clear All Expenses
-         11. Exit
+         11. Export to CSV
+         12. Exit
          ''')
     
 def get_valid_amount():
@@ -136,7 +138,7 @@ def search_by_description():
             found=False
             for expense in expenses:
                 if search_description.lower() in expense['description'].lower():
-                    print(f"   Category: {expense['category']}")
+                    print(f"\n   Category: {expense['category']}")
                     print(f"   Description: {expense['description']}")
                     print(f"   Rs: {expense['amount']:.2f}")
                     print(f"   Date: {expense['date']}\n")
@@ -418,6 +420,18 @@ def clear_expenses():
             break
         else:
             print("Enter Y or N!!")
+            
+def export_to_csv():
+    if not expenses:
+        print("No expenses available!")
+        return
+    
+    with open("expenses.csv", "w", newline="") as file:
+        fieldnames=["category", "amount", "description", "date"]
+        writer=csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(expenses)
+    print("\nExpenses successfully exported to expenses.csv!\n")
    
 load_expenses()
 budget=load_budget()
@@ -457,11 +471,14 @@ while True:
             clear_expenses()
             
         elif choice==11:
+            export_to_csv()
+            
+        elif choice==12:
             print("Goodbye!!!")
             break
         
         else:
-            print("Oops!!! Enter choice between 1 and 10!\n")
+            print("Oops!!! Enter choice between 1 and 12!\n")
             
     except ValueError:
-        print("Oops!!! Enter integer(only) between 1 and 10!\n")
+        print("Oops!!! Enter integer(only) between 1 and 12!\n")
