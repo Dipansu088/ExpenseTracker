@@ -99,7 +99,7 @@ def load_budget():
         if isinstance(budget, bool):
             print("WARNING!!! Invalid budget value found!")
             return 0
-        if isinstance(budget, (int, float)):
+        if not isinstance(budget, (int, float)):
             print("WARNING!!! Invalid budget value found!")
             return 0
         if budget<=0:
@@ -115,6 +115,7 @@ def load_budget():
         return 0
     except OSError as error:
         print(f"WARNING! Could not read budget.json: {error}")
+        return 0
     
 def save_budget(budget):
     with open("budget.json", "w") as file:
