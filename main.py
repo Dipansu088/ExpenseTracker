@@ -91,6 +91,30 @@ def load_budget():
     except json.JSONDecodeError:
         print('''Warning: expenses.json is corrupted.
                 Starting with an empty expense list.''')
+        
+def load_budget():
+    try:
+        with open("budget.json", "r") as file:
+            budget=json.load(file)
+        if isinstance(budget, bool):
+            print("WARNING!!! Invalid budget value found!")
+            return 0
+        if isinstance(budget, (int, float)):
+            print("WARNING!!! Invalid budget value found!")
+            return 0
+        if budget<=0:
+            print("Budget must be greater than 0 !!!")
+            return 0
+        
+        return budget
+    except FileNotFoundError:
+        return 0
+    except json.JSONDecodeError:
+        print("Warning: budget.json is corrupted.")
+        print("Starting without a monthly budget.\n")
+        return 0
+    except OSError as error:
+        print(f"WARNING! Could not read budget.json: {error}")
     
 def save_budget(budget):
     with open("budget.json", "w") as file:
