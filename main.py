@@ -32,18 +32,37 @@ def display_expenses():
             print(f"   {expense_item['description']}")
             print(f"   Rs: {expense_item['amount']:.2f}")
             print(f"   Date: {expense_item['date']}\n")
-
+        
 def load_expenses():
     global expenses
+    
     try:
-        with open("expenses.json","r") as file:
-            expenses=json.load(file)
+        with open("expenses.json", "r") as file:
+            data=json.load(file)
+            
+        if not isinstance(data, list):
+            print("Warning: expenses.json does not contain a valid expense list.")
+            expenses=[]
+            return
+        
+        valid_expenses=[]
+        for expense in data:
+            if validate_expenses(expense):
+                valid_expenses.append(expense)
+            else:
+                print("Warning: Invalid expense found and skipped.")
+                
+        expenses=valid_expenses
+        
     except FileNotFoundError:
         expenses=[]
     except json.JSONDecodeError:
-        print('''Warning: expenses.json is corrupted.
-               Starting with an empty expense list.''')
-        expenses=[]
+        print("Warning: expenses.json is corrupted.")
+        print("Starting with an empty expense list.\n")
+        expenses = []
+    except OSError as error:
+        print(f"Warning: Could not read expenses.json: {error}")
+        expenses = []
         
 def save_expenses():
     with open("expenses.json", "w") as file:
@@ -164,6 +183,7 @@ def validate_date(date_input):
         return False
     
 def validate_expenses(expense):
+    
     if not isinstance(expense, dict):
         return False
     
