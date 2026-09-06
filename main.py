@@ -84,16 +84,6 @@ def save_expenses():
         
 def load_budget():
     try:
-        with open("budget.json","r") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return 0
-    except json.JSONDecodeError:
-        print('''Warning: expenses.json is corrupted.
-                Starting with an empty expense list.''')
-        
-def load_budget():
-    try:
         with open("budget.json", "r") as file:
             budget=json.load(file)
         if isinstance(budget, bool):
@@ -116,10 +106,19 @@ def load_budget():
     except OSError as error:
         print(f"WARNING! Could not read budget.json: {error}")
         return 0
-    
+        
 def save_budget(budget):
-    with open("budget.json", "w") as file:
-        json.dump(budget, file, indent=4)
+    temp_file="budget.json.tmp"
+    
+    try:
+        with open("temp_file", "w") as file:
+            json.dump(budget, file, indent=4)
+        os.replace(temp_file, "budget.json")
+    except OSError as error:
+        print(f"Could not save budget: {error}")
+        
+        if os.path.exists(temp_file):
+            os.remove(temp_file)
 
 def menu():
     print("==============| EXPENSE TRACKER |==============")
