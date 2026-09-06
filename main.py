@@ -154,6 +154,8 @@ def get_current_month_expenses():
     total=0
     
     for expense in expenses:
+        if not validate_expenses(expenses):
+            continue
         expense_month=expense['date'][3:]
         
         if expense_month==current_month:
@@ -524,12 +526,17 @@ def export_to_csv():
         print("No expenses available!")
         return
     
-    with open("expenses.csv", "w", newline="") as file:
-        fieldnames=["category", "amount", "description", "date"]
-        writer=csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(expenses)
-    print("\nExpenses successfully exported to expenses.csv!\n")
+    try:
+        with open("expenses.csv", "w", newline="") as file:
+            fieldnames=["category", "amount", "description", "date"]
+            
+            writer=csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(expenses)
+        print("\nExpenses successfully exported to expenses.csv!\n")
+        
+    except OSError as error:
+        print(f"\nError: Could not export expenses to CSV: {error}\n")
    
 load_expenses()
 budget=load_budget()
