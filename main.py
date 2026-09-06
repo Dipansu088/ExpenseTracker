@@ -1,6 +1,7 @@
 from datetime import date, datetime
 import json
 import csv
+import os
 
 expenses=[]
 
@@ -39,6 +40,10 @@ def load_expenses():
             expenses=json.load(file)
     except FileNotFoundError:
         expenses=[]
+    except json.JSONDecodeError:
+        print('''Warning: expenses.json is corrupted.
+               Starting with an empty expense list.''')
+        expenses=[]
         
 def save_expenses():
     with open("expenses.json", "w") as file:
@@ -50,6 +55,9 @@ def load_budget():
             return json.load(file)
     except FileNotFoundError:
         return 0
+    except json.JSONDecodeError:
+        print('''Warning: expenses.json is corrupted.
+                Starting with an empty expense list.''')
     
 def save_budget(budget):
     with open("budget.json", "w") as file:
@@ -154,6 +162,38 @@ def validate_date(date_input):
         return True
     except ValueError:
         return False
+    
+def validate_expenses(expense):
+    if not isinstance(expense, dict):
+        return False
+    
+    required_fields=[
+        "amount",
+        "category",
+        "description",
+        "date"
+    ]
+    
+    for field in required_fields:
+        if field not in expense:
+            return False
+    
+    amount=expense['amount']
+    category=expense['category']
+    description=expense['description']
+    expense_date=expense['date']
+    
+    if not isinstance(amount, (float, int)):
+        return False
+    if isinstance(amount, bool):
+        return False
+    if not isinstance(category, str) or category not in CATEGORIES:
+        return False
+    if not isinstance(description, str) or description.strip()=="":
+        return False
+    if not isinstance(expense_date, str) or not validate_date(expense_date):
+        return False
+    return True
 
 def filter_by_date():
     print("\n=========| FILTER by DATE |=========\n")
