@@ -68,6 +68,20 @@ def save_expenses():
     with open("expenses.json", "w") as file:
         json.dump(expenses, file, indent=4)
         
+def save_expenses():
+    temp_file="expenses.json.tmp"
+    
+    try:
+        with open(temp_file, "w") as file:
+            json.dump(expenses, file, indent=4)
+        os.replace(temp_file, "expenses.json")
+        
+    except OSError as error:
+        print(f"Error: Could not save expenses: {error}")
+        
+        if os.path.exists(temp_file):
+            os.remove(temp_file)
+        
 def load_budget():
     try:
         with open("budget.json","r") as file:
