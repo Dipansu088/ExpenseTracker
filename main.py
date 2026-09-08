@@ -388,14 +388,14 @@ def edit_expense():
                 print(f"Selected category: {CATEGORIES[actual_index]}")
                 break
             else:
-                print(f"Select valid category!")
+                print(f"\nSelect valid category!\n")
         except ValueError:
-            print("Enter valid category number!")
+            print("\nEnter valid category number!\n")
         
     while True:
         new_description=input("Enter new description: ").strip()
         if new_description=="":
-            print("Description cannot be empty!")
+            print("\nDescription cannot be empty!\n")
         else:
             expense['description']=new_description
             break
@@ -432,7 +432,7 @@ def search_filter():
 
     while True:
         if not expenses:
-            print("No expenses available!")
+            print("\nNo expenses available!\n")
             return
             
         print("\n=========| SEARCH / FILTER |=========")
@@ -458,10 +458,10 @@ def search_filter():
                 break
             
             else:
-                print("Enter choice between 1 and 4!")
+                print("\nEnter choice between 1 and 4!\n")
                 
         except ValueError:
-            print(f"Enter inter only choice within 1 and 4!")
+            print(f"\nEnter inter only choice within 1 and 4!\n")
             
 def set_budget():
     global budget
