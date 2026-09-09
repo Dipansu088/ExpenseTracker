@@ -2,6 +2,10 @@ from datetime import date, datetime
 import json
 import csv
 import os
+import psycopg
+from dotenv import load_dotenv
+
+load_dotenv()
 
 expenses=[]
 
@@ -21,6 +25,15 @@ CATEGORIES=[
             'Travel'
     
               ]
+
+def get_connection():
+    return psycopg.connect(
+        host=os.getenv("DB_HOST"),
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        port=os.getenv("DB_PORT")
+    )
 
 def display_expenses():
     if not expenses:
@@ -304,16 +317,27 @@ def add_expense():
         else:
             break
     
-    expense_date=date.today().strftime("%d-%m-%Y")
+    expense_date=date.today()
     
-    expenses.append({
-        "amount":amount,
-    "category":category,
-    "description":description,
-    "date":expense_date
-    })
-    save_expenses()
-    print("Expense added successfully!\n")
+    connection=get_connection()
+    
+    try:
+        cursor=connection.cursor()
+        cursor.execute("""
+                       INSERT INTO expenses(amount, category, description, expense_date)
+                       VALUES(%s,%s,%s,%s);""",
+                       (amount, category, description, expense_date))
+        
+        connection.commit()
+        print("Expense added successfully!!!\n")
+        
+    except Exception as e:
+        connection.rollback()
+        print(f"Failed to add expense: {e}\n")
+        
+    finally:
+        cursor.close()
+        connection.close()
     
 def view_expenses():
     display_expenses()

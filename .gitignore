@@ -8,3 +8,6 @@ __pycache__
 prev.txt
 dataAnalytics.py
 expense_tracker_database.sql
+test_db.py
+.env
+main_backup.py
