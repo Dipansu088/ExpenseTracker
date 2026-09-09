@@ -36,15 +36,43 @@ def get_connection():
     )
 
 def display_expenses():
-    if not expenses:
-        print("\nNo expenses available!!!\n")
-    else:
+    
+    connection=get_connection()
+    
+    try:
+        cursor=connection.cursor()
+        cursor.execute("""
+                       SELECT id, amount, category, description, expense_date 
+                       FROM expenses 
+                       ORDER BY id;
+                       """)
+        
+        expenses=cursor.fetchall()
+        
+        if not expenses:
+            print("\nNo expenses available to display!!\n")
+            return
+        
         print("\n=========| YOUR EXPENSES |=========\n")
-        for number, expense_item in enumerate(expenses, start=1):
-            print(f"{number}. {expense_item['category']}")
-            print(f"   {expense_item['description']}")
-            print(f"   Rs: {expense_item['amount']:.2f}")
-            print(f"   Date: {expense_item['date']}\n")
+        
+        for expense in expenses:
+            expense_id=expense[0]
+            amount=expense[1]
+            category=expense[2]
+            description=expense[3]
+            expense_date=expense[4]
+            
+            print(f"{expense_id}: {category}")
+            print(f"   {description}")
+            print(f"   Rs: {amount:.2f}")
+            print(f"   Date: {expense_date.strftime('%d-%m-%Y')}\n")
+            
+    except Exception as e:
+        print(f"Falied to load expenses: {e}\n")
+        
+    finally:
+        cursor.close()
+        connection.close()
         
 def load_expenses():
     global expenses
