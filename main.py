@@ -372,35 +372,78 @@ def view_expenses():
 
 def delete_expense():
     
-    if not expenses:
-        print("\nNo expenses available to display!!!\n")
-        return
-    
-    display_expenses()
+    connection=get_connection()
+        
+    try:
+        cursor=connection.cursor()
+        cursor.execute("""
+                        SELECT id, amount, category, description, expense_date
+                        FROM expenses
+                        ORDER BY id
+                        """)
+        
+        expenses=cursor.fetchall()
             
-    while True:
-        try:
-            n=int(input("Enter the expense number to delete: "))
-            if n<=0:
-                print("Enter integer greater than 0 only.")
-            else:
-                if n>=1 and n<=len(expenses):
-                    actual_index=n-1
-                    deleted_expense=expenses.pop(actual_index)
-                    save_expenses()
-                    print(f"Expense deleted successfully!\n")
-                    print(f"Category: {deleted_expense['category']}")
-                    print(f"Description: {deleted_expense['description']}")
-                    print(f"Amount: Rs.{deleted_expense['amount']:.2f}")
-                    print(f"Date: {deleted_expense['date']}\n")
-                    break
-                else:
-                    print(f"OOPS! Enter expense number within {len(expenses)}")
-        except ValueError:
-            print("Enter integer only!")
+        if not expenses:
+            print("\nNo expenses available!!!\n")
+            return
+            
+        print("\n=========| YOUR EXPENSES |=========\n")
+            
+        for expense in expenses:
+            expense_id=expense[0]
+            amount=expense[1]
+            category=expense[2]
+            description=expense[3]
+            expense_date=expense[4]
+                
+            print(f"{expense_id}. {category}")
+            print(f"   {description}")
+            print(f"   Rs: {amount:.2f}")
+            print(f"   Date: {expense_date.strftime('%d-%m-%Y')}\n")
+                
+        while True:
+            try:
+                expense_id=int(input("Enter expense ID to delete: "))
+                    
+                if expense_id<=0:
+                    print("Enter a valid expense ID!!")
+                    continue
+                    
+                cursor.execute("""
+                                SELECT id, category, description
+                                FROM expenses
+                                WHERE id=%s;
+                                """,(expense_id,))
+                    
+                expense=cursor.fetchone()
+                if expense is None:
+                    print(f"\nNo expense of ID: {expense_id} found!\n")
+                    continue
+                    
+                cursor.execute("""
+                                DELETE FROM expenses
+                                WHERE id=%s;
+                                """,(expense_id,))
+                
+                connection.commit()
+                    
+                print(f"\nExpense '{expense[1]} - {expense[2]}' deleted successfully!!!\n")
+                break
+                
+            except ValueError:
+                print("\nEnter integer only!\n")
+                    
+    except Exception as e:
+        connection.rollback()
+        print(f"Falied to delete expense: {e}\n")
+            
+    finally:
+        cursor.close()
+        connection.close()
 
 def edit_expense():
-    
+
     if not expenses:
         print("\nNo expenses available to display!!!\n")
         return
