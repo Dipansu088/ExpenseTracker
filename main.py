@@ -436,7 +436,7 @@ def delete_expense():
                     
     except Exception as e:
         connection.rollback()
-        print(f"Falied to delete expense: {e}\n")
+        print(f"Failed to delete expense: {e}\n")
             
     finally:
         cursor.close()
@@ -517,7 +517,7 @@ def edit_expense():
                 print(f"{number}. {category_name}")
                 
             try:
-                c=int(input("Select new category: "))
+                c=int(input("\nSelect new category: "))
                 
                 if c>=1 and c<=len(CATEGORIES):
                     new_category=CATEGORIES[c-1]
@@ -566,13 +566,26 @@ def edit_expense():
         connection.close()
 
 def view_total():
-    if not expenses:
-        print("\nNo expenses available to show total!!\n")
-    else:
-        total=0
-        for i in expenses:
-            total=total+i['amount']
-        print(f"Your total expense: Rs {total:.2f}\n")
+    
+    connection=get_connection()
+    
+    try:
+        cursor=connection.cursor()
+        cursor.execute("""
+                       SELECT COALESCE(SUM(amount), 0)
+                       FROM expenses;
+                       """)
+        total=cursor.fetchone()[0]
+        
+        print("\n=========| TOTAL EXPENSE |=========\n")
+        print(f"Total spent: Rs: {total:.2f}\n")
+        
+    except Exception as e:
+        print(f"\nFailed to calculate total: {e}\n")
+        
+    finally:
+        cursor.close()
+        connection.close()
 
 def view_summary():
     if not expenses:
@@ -589,7 +602,6 @@ def view_summary():
         print("=========| EXPENSE SUMMARY |=========\n")
         for category,total in summary.items():
             print(f"{category}: Rs {total:.2f}")
-            
             
 def search_filter():
 
