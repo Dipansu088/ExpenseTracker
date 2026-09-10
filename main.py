@@ -396,12 +396,12 @@ def delete_expense():
             category=expense[2]
             description=expense[3]
             expense_date=expense[4]
-                
+            
             print(f"{expense_id}. {category}")
             print(f"   {description}")
             print(f"   Rs: {amount:.2f}")
             print(f"   Date: {expense_date.strftime('%d-%m-%Y')}\n")
-                
+            
         while True:
             try:
                 expense_id=int(input("Enter expense ID to delete: "))
@@ -443,59 +443,127 @@ def delete_expense():
         connection.close()
 
 def edit_expense():
-
-    if not expenses:
-        print("\nNo expenses available to display!!!\n")
-        return
     
-    display_expenses()
+    connection=get_connection()
+    
+    try:
+        cursor=connection.cursor()
+        cursor.execute("""
+                       SELECT id, amount, category, description, expense_date
+                       FROM expenses
+                       ORDER BY id;
+                        """)
+        expenses=cursor.fetchall()
+        
+        if not expenses:
+            print("\nNo expenses available!!!")
+            return
+        
+        print("\n=========| YOUR EXPENSES |=========\n")
+        
+        for expense in expenses:
+            expense_id=expense[0]
+            amount=expense[1]
+            category=expense[2]
+            description=expense[3]
+            expense_date=expense[4]
             
-    while True:
-        try:
-            n=int(input("Enter expense number to edit: "))
-            if n>=1 and n<=len(expenses):
-                actual_index=n-1
-                expense=expenses[actual_index]
-                print(f"\n-----Selected Expense: -----\n")
-                print(f"   Category: {expense['category']}")
-                print(f"   Description: {expense['description']}")
-                print(f"   Rs: {expense['amount']:.2f}")
-                print(f"   Date: {expense['date']}\n")
+            print(f"{expense_id}. {category}")
+            print(f"   {description}")
+            print(f"   Rs: {amount:.2f}")
+            print(f"   Date: {expense_date.strftime('%d-%m-%Y')}\n")
+            
+        while True:
+            try:
+                expense_id=int(input("Enter expense ID you wanna edit: "))
+                
+                if expense_id<=0:
+                    print("Enter valid ID!")
+                    continue
+                
+                cursor.execute("""
+                               SELECT id, amount, category, description, expense_date
+                               FROM expenses
+                               WHERE id=%s;
+                               """,(expense_id,))
+                
+                expense=cursor.fetchone()
+                
+                if expense is None:
+                    print(f"No expenses of ID {expense_id} found!!")
+                    continue
+                
                 break
-            else:
-                print(f"Enter expense number between 1 and {len(expenses)}")
-        except ValueError:
-            print("Enter integer only!")
-    
-    new_amount=get_valid_amount()
-    expense['amount']=new_amount
+            
+            except ValueError:
+                print("Enter integer only!!")
         
-    print("\n=========| SELECT NEW CATEGORY |=========")
-        
-    while True:
-        for number, category_name in enumerate(CATEGORIES, start=1):
-            print(f"{number}. {category_name}")
-        try:
-            new_category=int(input("Enter new category: "))
-            if new_category>=1 and new_category<=len(CATEGORIES):
-                actual_index=new_category-1
-                expense['category']=CATEGORIES[actual_index]
-                print(f"Selected category: {CATEGORIES[actual_index]}")
+        while True:
+            try:
+                new_amount=float(input("Enter new amount: "))
+                
+                if new_amount<=0:
+                    print("Amount must be greater than 0...!")
+                    continue
                 break
-            else:
-                print(f"\nSelect valid category!\n")
-        except ValueError:
-            print("\nEnter valid category number!\n")
+            
+            except ValueError:
+                print("Enter valid amount!!")
+                
+        print("\n=========| SELECT NEW CATEGORY |=========\n")
         
-    while True:
-        new_description=input("Enter new description: ").strip()
-        if new_description=="":
-            print("\nDescription cannot be empty!\n")
-        else:
-            expense['description']=new_description
-            break
-    save_expenses()
-    print("\nExpense updated successfully!!!\n")
+        while True:
+            for number, category_name in enumerate(CATEGORIES, start=1):
+                print(f"{number}. {category_name}")
+                
+            try:
+                c=int(input("Select new category: "))
+                
+                if c>=1 and c<=len(CATEGORIES):
+                    new_category=CATEGORIES[c-1]
+                    break
+                else:
+                    print("\nSelect within the given list of categories!\n")
+                    
+            except ValueError:
+                print("Enter a valid category(integer/number)!!!")
+                
+        while True:
+            new_description=input("Enter new description: ").strip()
+                
+            if new_description=="":
+                print("Description cannot be empty!")
+            else:
+                break
+                
+        while True:
+            new_date=input("Enter new date (DD-MM-YYYY): ").strip()
+            
+            try:
+                new_date=datetime.strptime(new_date, "%d-%m-%Y").date()
+                break
+            
+            except ValueError:
+                print("Enter data in DD-MM-YYYY formate!!")
+                
+        cursor.execute("""
+                       UPDATE expenses
+                       SET amount=%s, category=%s, description=%s, expense_date=%s
+                       WHERE id=%s;
+                       """,
+                       (new_amount, new_category, new_description, new_date, expense_id))
+        
+        connection.commit()
+        
+        print("\nExpense updated successfully!!!\n")
+        
+    except Exception as e:
+        connection.rollback()
+        print(f"Failed to update expense: {e}\n")
+        
+    finally:
+        cursor.close()
+        connection.close()
 
 def view_total():
     if not expenses:
