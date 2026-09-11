@@ -588,20 +588,40 @@ def view_total():
         connection.close()
 
 def view_summary():
-    if not expenses:
-        print("No expenses available for summary!\n")
-    else:
-        summary={}
-        for i in expenses:
-            category=i['category']
-            amount=i['amount']
-            if category in summary:
-                summary[category] = summary[category]+amount
-            else:
-                summary[category]=amount
-        print("=========| EXPENSE SUMMARY |=========\n")
-        for category,total in summary.items():
-            print(f"{category}: Rs {total:.2f}")
+    connection=get_connection()
+    
+    try:
+        cursor=connection.cursor()
+        
+        cursor.execute("""
+                       SELECT category, SUM(amount)
+                       FROM expenses
+                       GROUP BY category
+                       ORDER BY category;
+                       """)
+        
+        summary=cursor.fetchall()
+        
+        if not summary:
+            print("\nNo Expenses available!\n")
+            return
+        
+        print("\n=========| EXPENSE SUMMARY |=========\n")
+        
+        total=0
+        for category, amount in summary:
+            print(f"{category}: Rs: {amount:.2f}")
+            total+=amount
+            
+        print("\n--------------------------------")
+        print(f"Total: Rs: {total:.2f}\n")
+        
+    except Exception as e:
+        print(f"Failed to load summary: {e}\n")
+        
+    finally:
+        cursor.close()
+        connection.close()
             
 def search_filter():
 
