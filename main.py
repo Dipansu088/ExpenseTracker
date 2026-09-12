@@ -162,7 +162,7 @@ def save_budget(budget):
             os.remove(temp_file)
 
 def menu():
-    print("==============| EXPENSE TRACKER |==============")
+    print("==============| EXPENSE TRACKER 😎 |==============")
     print('''         
          1. Add Expense
          2. View Expenses
@@ -206,36 +206,49 @@ def get_current_month_expenses():
     
 def search_by_category():
     print("\n=========| SEARCH by CATEGORY |=========\n")
+    
+    for number, category_name in enumerate(CATEGORIES, start=1):
+        print(f"{number}. {category_name}")
                 
     while True:
-        
-        for number, category_name in enumerate(CATEGORIES, start=1):
-            print(f"{number}. {category_name}")
-            
+         
         try:
-            category_number=int(input("\nEnter category number: "))
-            if category_number>=1 and category_number<=len(CATEGORIES):
-                actual_index=category_number-1
-                selected_category=CATEGORIES[actual_index]
-                print(f"Selected category: {selected_category}")
-                
-                found=False
-                print(f"\n-----Selected Category: '{selected_category}'-----\n")
-                for expense in expenses:
-                    if expense['category']==selected_category:
-                        print(f"   Category: {expense['category']}")
-                        print(f"   Description: {expense['description']}")
-                        print(f"   Rs: {expense['amount']:.2f}")
-                        print(f"   Date: {expense['date']}\n")
-                        found=True
-                if not found:
-                    print(f"No expenses found for '{selected_category}'!")
+            c=int(input("\nSelect category: "))
+            
+            if c>=1 and c<=len(CATEGORIES):
+                actual_index=c-1
+                category=CATEGORIES[actual_index]
+                print(f"Selected category: {category}")
                 break
             else:
                 print(f"Enter within {len(CATEGORIES)}")
                             
         except ValueError:
             print(f"Enter integer only within {len(CATEGORIES)}.")
+            
+    connection=get_connection()
+    
+    try:
+        cursor=connection.cursor()
+        cursor.execute("""
+                       SELECT id, category, description, amount, expense_date
+                       FROM expenses
+                       WHERE catgeory=%s
+                       ORDER BY id;""",
+                       (category,))
+        
+        results=cursor.fetchall()
+        if not results:
+            print(f"No expenses available for {category} category...")
+            return
+        for expense in results:
+            expense_id=expense[0]
+            catgeory=expense[1]
+            description=expense[2]
+            amount=expense[3]
+            expense_date=expense[4]
+            
+        
 
 def search_by_description():
     print("\n=========| SEARCH by DESCRIPTION |=========\n")
