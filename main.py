@@ -233,7 +233,7 @@ def search_by_category():
         cursor.execute("""
                        SELECT id, category, description, amount, expense_date
                        FROM expenses
-                       WHERE catgeory=%s
+                       WHERE category=%s
                        ORDER BY id;""",
                        (category,))
         
@@ -241,6 +241,9 @@ def search_by_category():
         if not results:
             print(f"No expenses available for {category} category...")
             return
+        
+        print(f"\n=========| {category.upper()} EXPENSES |=========\n")
+        
         for expense in results:
             expense_id=expense[0]
             catgeory=expense[1]
@@ -248,7 +251,15 @@ def search_by_category():
             amount=expense[3]
             expense_date=expense[4]
             
+            print(f"{expense_id}. {description}")
+            print(f"   Rs: {amount:.2f}")
+            print(f"   Date: {expense_date.strftime('%d-%m-%Y')}\n")
+    except Exception as e:
+        print(f"Failed to search expenses: {e}\n")
         
+    finally:
+        cursor.close()
+        connection.close()
 
 def search_by_description():
     print("\n=========| SEARCH by DESCRIPTION |=========\n")
