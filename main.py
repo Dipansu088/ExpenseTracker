@@ -10,6 +10,7 @@ load_dotenv()
 expenses=[]
 
 CATEGORIES=[
+    
             
             'Transfers',
             'Groceries',
