@@ -265,6 +265,21 @@ def search_by_category():
 def search_by_description():
     print("\n=========| SEARCH by DESCRIPTION |=========\n")
     
+    search_text=input("Enter description to search: ").strip()
+    if search_text=="":
+        print(f"This field cannot be empty!!!|")
+        return
+    
+    connection=get_connection()
+    
+    try:
+        cursor=connection.cursor()
+        cursor.execute("""
+                       SELECT id, amount, category, description, expense_date
+                       FROM expenses
+                       WHERE description ILIKE %s
+                       ORDER BY id;""",(search_text))
+    
     while True:
             search_description=input("Enter description you want to search by: ").strip()
             
