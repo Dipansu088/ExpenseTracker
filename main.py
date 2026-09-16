@@ -263,7 +263,7 @@ def search_by_category():
         connection.close()
 
 def search_by_description():
-    print("\n=========| SEARCH by DESCRIPTION |=========\n")
+    print("\n=========| SEARCH by DESCRIPTION |=========\n") 
     
     search_text=input("Enter description to search: ").strip()
     if search_text=="":
