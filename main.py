@@ -287,16 +287,16 @@ def search_by_description():
             return
         
         for expense in results:
-            id=expense[0]
+            expense_id=expense[0]
             amount=expense[1]
             category=expense[2]
             description=expense[3]
             date=expense[4]
             
-            print(f"{id}. {category}")
+            print(f"{expense_id}. {category}")
             print(f"   {description}")
             print(f"   Rs: {amount:.2f}")
-            print(f"   Date: {date}\n")
+            print(f"   Date: {date.strftime('%d-%m-%Y')}\n")
             
     except Exception as e:
         print(f"Expenses cannot be displayed: {e}.\n")
