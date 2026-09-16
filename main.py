@@ -278,23 +278,32 @@ def search_by_description():
                        SELECT id, amount, category, description, expense_date
                        FROM expenses
                        WHERE description ILIKE %s
-                       ORDER BY id;""",(search_text))
-    
-    while True:
-            search_description=input("Enter description you want to search by: ").strip()
+                       ORDER BY id;""", (f"%{search_text}%",))
+        
+        results=cursor.fetchall()
+        
+        if not results:
+            print(f"No expense of '{search_text}' description found!!")
+            return
+        
+        for expense in results:
+            id=expense[0]
+            amount=expense[1]
+            category=expense[2]
+            description=expense[3]
+            date=expense[4]
             
-            found=False
-            for expense in expenses:
-                if search_description.lower() in expense['description'].lower():
-                    print(f"\n   Category: {expense['category']}")
-                    print(f"   Description: {expense['description']}")
-                    print(f"   Rs: {expense['amount']:.2f}")
-                    print(f"   Date: {expense['date']}\n")
-                    found=True
-                    
-            if not found:
-                print(f"No expenses of {search_description} available.")
-            break
+            print(f"{id}. {category}")
+            print(f"   {description}")
+            print(f"   Rs: {amount:.2f}")
+            print(f"   Date: {date}\n")
+            
+    except Exception as e:
+        print(f"Expenses cannot be displayed: {e}.\n")
+    
+    finally:
+        cursor.close()
+        connection.close()
 
 def validate_date(date_input):
     try:
