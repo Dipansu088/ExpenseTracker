@@ -23,7 +23,9 @@ CATEGORIES=[
             'Medical',
             'Personal',
             'Logistics',
-            'Travel'
+            'Travel',
+            'Education',
+            'Savings and investements'
     
               ]
 
