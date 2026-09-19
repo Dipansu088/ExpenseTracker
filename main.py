@@ -353,7 +353,7 @@ def filter_by_date():
         date_input=input("Enter date (DD-MM-YYYY): ").strip()
         
         try:
-            selected_date=datetime.strptime(date_input, "%d=%m-%Y").date()
+            selected_date=datetime.strptime(date_input, "%d-%m-%Y").date()
             break
         except ValueError:
             print("Enter a valid date in DD-MM-YYYY format!")
