@@ -11,7 +11,6 @@ expenses=[]
 
 CATEGORIES=[
     
-            
             'Transfers',
             'Groceries',
             'Transport',
@@ -349,23 +348,60 @@ def validate_expenses(expense):
 
 def filter_by_date():
     print("\n=========| FILTER by DATE |=========\n")
-
-    while True:
-        search_date=input("Enter the date to search (DD-MM-YYYY): ").strip()
-        if validate_date(search_date):
-            break
-        print("Invalid date! Please enter a valid date in DD-MM-YYYY format.")
     
-    found=False
-    for expense in expenses:
-        if expense['date']==search_date:
-            print(f"   Category: {expense['category']}")
-            print(f"   Description: {expense['description']}")
-            print(f"   Rs: {expense['amount']:.2f}")
-            print(f"   Date: {expense['date']}\n")
-            found=True
-    if not found:
-        print(f"No expense of {search_date} available!")
+    while True:
+        date_input=input("Enter date (DD-MM-YYYY): ").strip()
+        
+        try:
+            selected_date=datetime.strptime(date_input, "%d=%m-%Y").date()
+            break
+        except ValueError:
+            print("Enter a valid date in DD-MM-YYYY format!")
+            
+    connection=get_connection()
+    
+    try:
+        cursor=connection.cursor()
+        
+        cursor.execute("""
+                       SELECT id, amount, category, description, expense_date
+                       FROM expenses
+                       WHERE expense_date=%s
+                       ORDER BY id;""",
+                       (selected_date,))
+        
+        results=cursor.fetchall()
+        
+        if not results:
+            print(f"\nNo expenses found on"
+                  f"{selected_date.strftime('%d-%m-%Y')}.\n"
+                  )
+            return
+        
+        print(
+            f"\n=========| EXPENSES ON "
+            f"{selected_date.strftime('%d-%m-%Y')} |=========\n"
+        )
+        
+        for expense in results:
+            expense_id=expense[0]
+            amount=expense[1]
+            category=expense[2]
+            description=expense[3]
+            expense_date=expense[4]
+            
+            print(f"{expense_id}. {category}")
+            print(f"   {description}")
+            print(f"   Rs: {amount:.2f}")
+            print(f"   Date: "
+                  f"{expense_date.strftime('%d-%m-%Y')}\n")
+            
+    except Exception as e:
+        print(f"Failed to filter expenses: {e}\n")
+        
+    finally:
+        cursor.close()
+        connection.close()
     
 def add_expense():
     print("=========| ADD EXPENSE |=========\n")
