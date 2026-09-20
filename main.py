@@ -374,7 +374,7 @@ def filter_by_date():
         
         if not results:
             print(f"\nNo expenses found on"
-                  f"{selected_date.strftime('%d-%m-%Y')}.\n"
+                  f" {selected_date.strftime('%d-%m-%Y')}.\n"
                   )
             return
         
