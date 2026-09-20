@@ -713,37 +713,30 @@ def view_summary():
 def search_filter():
 
     while True:
-        if not expenses:
-            print("\nNo expenses available!\n")
-            return
             
         print("\n=========| SEARCH / FILTER |=========")
         print("""
             1. Search by Category
             2. Search by Description
             3. Filter by Date
-            4. Back
+            4. Back to main menu
             """)
+        
+        choice=input("Enter you choice: ").strip()
+        if choice=='1':
+            search_by_category()
+                
+        elif choice=='2':
+            search_by_description()
+                
+        elif choice=='3':
+            filter_by_date()
+                
+        elif choice=='4':
+            break
             
-        try:
-            choice_2=int(input("Enter you choice: "))
-            if choice_2==1:
-                search_by_category()
-                
-            elif choice_2==2:
-                search_by_description()
-                
-            elif choice_2==3:
-                filter_by_date()
-                
-            elif choice_2==4:
-                break
-            
-            else:
-                print("\nEnter choice between 1 and 4!\n")
-                
-        except ValueError:
-            print(f"\nEnter inter only choice within 1 and 4!\n")
+        else:
+            print("\nEnter choice between 1 and 4!\n")
             
 def set_budget():
     global budget
