@@ -402,6 +402,7 @@ def filter_by_date():
     finally:
         cursor.close()
         connection.close()
+        
     
 def add_expense():
     print("=========| ADD EXPENSE |=========\n")
