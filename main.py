@@ -346,7 +346,6 @@ def validate_expenses(expense):
         return False
     return True
 
-
 def filter_by_date():
     print("\n=========| FILTER by DATE |=========\n")
     
