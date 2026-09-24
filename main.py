@@ -753,7 +753,7 @@ def set_budget():
         except ValueError:
             print(f"Enter a valid amount!!\n")
             
-    current_month=date.today.replace(day=1)
+    current_month=date.today().replace(day=1)
     connection=get_connection()
     
     try:
