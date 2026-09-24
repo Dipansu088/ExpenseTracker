@@ -740,20 +740,47 @@ def search_filter():
             print("\nEnter choice between 1 and 4!\n")
             
 def set_budget():
-    global budget
+    
+    print("\n=========| SET MONTHLY BUDGET |=========\n")
+    
     while True:
-        print("\n=========| SET BUDGET |=========\n")
         try:
-            new_budget=float(input("Enter new budget: "))
-            if new_budget<=0:
-                print("Budget must be greater than 0.")
+            budget_amount=float(input("Enter budget amount: Rs: "))
+            if budget_amount<=0:
+                print("\nBudget must be greater than 0!\n")
             else:
-                budget=new_budget
-                save_budget(budget)
-                print(f"\nMonthly budget was set to Rs: {budget:.2f}\n")
                 break
         except ValueError:
-            print("Enter valid amount/budget!")
+            print(f"Enter a valid amount!!\n")
+            
+    current_month=date.today.replace(day=1)
+    connection=get_connection()
+    
+    try:
+        cursor=connection.cursor()
+        
+        cursor.execute("""
+                       INSERT INTO budgets (month,amount)
+                       VALUES (%s, %s)
+                       ON CONFLICT (month)
+                       DO UPDATE SET amount= EXCLUDED.amount;
+                       """, (current_month, budget_amount))
+        
+        connection.commit()
+        
+        print(f"\nMonthly budget set successfully!")
+        
+        print(f"Budget for {current_month.strftime('%B %Y')}: "
+              f"Rs: {budget_amount:.2f}\n"      
+        )
+        
+    except Exception as e:
+        connection.rollback()
+        print(f"Failed to set budget: {e}\n")
+        
+    finally:
+        cursor.close()
+        connection.close()
             
 def view_budget_status():
     
